@@ -11,11 +11,11 @@ const User = require('../../models/User');
 // @desc    Register new user
 // @access  Public
 router.post('/', (req, res) => {
-  const { name, username, password } = req.body;
+  const { first_name, last_name, nickname, username, password } = req.body;
 
   // Simple validation
-  if (!name || !username || !password) {
-    return res.status(400).json({ msg: 'Please enter all fields' });
+  if (!first_name || !username || !password) {
+    return res.status(400).json({ msg: 'Please enter all required fields' });
   }
 
   // Check for existing user
@@ -23,9 +23,13 @@ router.post('/', (req, res) => {
     if (user) return res.status(400).json({ msg: 'Username already taken' });
 
     const newUser = new User({
-      name,
       username,
-      password
+      password,
+      profile: {
+        first_name,
+        last_name,
+        nickname
+      }
     });
 
     // Create salt and hash
@@ -45,8 +49,8 @@ router.post('/', (req, res) => {
                 token,
                 user: {
                   id: user.id,
-                  name: user.name,
-                  username: user.username
+                  username: user.username,
+                  profile: user.profile
                 }
               });
             }
