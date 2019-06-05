@@ -5,15 +5,18 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Container,
-  Button
+  // NavLink
+  NavItem
+  // UncontrolledDropdown,
+  // DropdownToggle,
+  // DropdownMenu,
+  // DropdownItem,
+  // Container,
+  // Button
 } from 'reactstrap';
+
+import SessionModal from './auth/SessionModal';
+import Logout from './auth/Logout';
 
 class AppNavbar extends Component {
   constructor(props) {
@@ -32,6 +35,7 @@ class AppNavbar extends Component {
 
   render() {
     const { isOpen } = this.state;
+
     return (
       <div>
         <Navbar color='info' dark expand='sm'>
@@ -40,9 +44,10 @@ class AppNavbar extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
               <NavItem>
-                <Button id='authPopover' outline color='light'>
-                  Log In
-                </Button>
+                <SessionModal />
+              </NavItem>
+              <NavItem>
+                <Logout />
               </NavItem>
             </Nav>
           </Collapse>

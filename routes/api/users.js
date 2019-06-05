@@ -11,10 +11,11 @@ const User = require('../../models/User');
 // @desc    Register new user
 // @access  Public
 router.post('/', (req, res) => {
-  const { first_name, last_name, nickname, username, password } = req.body;
+  debugger;
+  const { firstName, lastName, nickname, username, password } = req.body;
 
   // Simple validation
-  if (!first_name || !username || !password) {
+  if (!firstName || !username || !password) {
     return res.status(400).json({ msg: 'Please enter all required fields' });
   }
 
@@ -26,8 +27,8 @@ router.post('/', (req, res) => {
       username,
       password,
       profile: {
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         nickname
       }
     });
