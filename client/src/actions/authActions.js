@@ -75,8 +75,8 @@ export const register = ({
     });
 };
 
-// Login User
-export const login = ({ username, password }) => dispatch => {
+// Log In User
+export const logIn = ({ username, password }) => dispatch => {
   // Headers
   const config = {
     headers: {

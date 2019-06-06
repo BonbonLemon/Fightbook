@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Button,
   Modal,
-  ModalHeader,
   ModalBody,
   Form,
   FormGroup,
@@ -10,11 +9,15 @@ import {
   Input,
   Row,
   Col,
-  Alert
+  Alert,
+  Nav,
+  NavItem,
+  NavLink
 } from 'reactstrap';
+import classnames from 'classnames';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { register } from '../../actions/authActions';
+import { logIn, register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
 class AuthModal extends Component {
@@ -25,7 +28,8 @@ class AuthModal extends Component {
     nickname: '',
     username: '',
     password: '',
-    msg: ''
+    msg: '',
+    action: 'Log In'
   };
 
   componentDidUpdate(prevProps) {
@@ -33,7 +37,7 @@ class AuthModal extends Component {
 
     if (error !== prevProps.error) {
       // Check for register error
-      if (error.id === 'REGISTER_FAIL') {
+      if (error.id === 'REGISTER_FAIL' || error.id === 'LOGIN_FAIL') {
         this.setState({ msg: error.data.msg });
       } else {
         this.setState({ msg: null });
@@ -43,7 +47,7 @@ class AuthModal extends Component {
     // If authenticated, close modal
     if (this.state.modal) {
       if (isAuthenticated) {
-        this.toggle();
+        this.toggleModal();
       }
     }
   }
@@ -51,16 +55,24 @@ class AuthModal extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool,
     error: PropTypes.object.isRequired,
+    logIn: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired
   };
 
-  toggle = () => {
+  toggleModal = () => {
     // Clear errors
     this.props.clearErrors();
 
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      action: 'Log In'
+    });
+  };
+
+  toggleTab = action => {
+    this.setState({
+      action
     });
   };
 
@@ -73,71 +85,118 @@ class AuthModal extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { firstName, lastName, nickname, username, password } = this.state;
-    // Create user object
-    const newUser = {
+    const {
       firstName,
       lastName,
       nickname,
       username,
-      password
-    };
+      password,
+      action
+    } = this.state;
 
-    // Attempt to register
-    this.props.register(newUser);
+    if (action === 'Log In') {
+      const user = { username, password };
+
+      // Attempt to log in
+      this.props.logIn(user);
+    } else if (action === 'Register') {
+      // Create user object
+      const newUser = {
+        firstName,
+        lastName,
+        nickname,
+        username,
+        password
+      };
+
+      // Attempt to register
+      this.props.register(newUser);
+    }
   };
 
   render() {
-    const { modal, msg } = this.state;
+    const { modal, msg, action } = this.state;
 
     return (
       <div>
-        <Button id='authPopover' onClick={this.toggle} outline color='light'>
+        <Button
+          id='authPopover'
+          onClick={this.toggleModal}
+          outline
+          color='light'
+        >
           Log In
         </Button>
-        <Modal isOpen={modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>Log In</ModalHeader>
+        <Modal isOpen={modal} toggle={this.toggleModal}>
+          <Nav tabs fill>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: action === 'Log In' })}
+                onClick={() => {
+                  this.toggleTab('Log In');
+                }}
+                href='#'
+              >
+                Log In
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: action === 'Register' })}
+                onClick={() => {
+                  this.toggleTab('Register');
+                }}
+                href='#'
+              >
+                Register
+              </NavLink>
+            </NavItem>
+          </Nav>
           <ModalBody>
             {msg ? <Alert color='danger'>{msg}</Alert> : null}
             <Form onSubmit={this.onSubmit}>
-              <Row form>
-                <Col xs='6'>
+              {action === 'Register' ? (
+                <Fragment>
+                  <Row form>
+                    <Col xs='6'>
+                      <FormGroup>
+                        <Label for='firstName'>
+                          First Name <span style={{ color: 'red' }}>*</span>
+                        </Label>
+                        <Input
+                          type='text'
+                          name='firstName'
+                          id='firstName'
+                          placeholder='First name'
+                          onChange={this.onChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col xs='6'>
+                      <FormGroup>
+                        <Label for='lastName'>Last Name</Label>
+                        <Input
+                          type='text'
+                          name='lastName'
+                          id='lastName'
+                          placeholder='Last name'
+                          onChange={this.onChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
                   <FormGroup>
-                    <Label for='firstName'>
-                      First Name <span style={{ color: 'red' }}>*</span>
-                    </Label>
+                    <Label for='nickname'>Nickname</Label>
                     <Input
                       type='text'
-                      name='firstName'
-                      id='firstName'
-                      placeholder='First name'
+                      name='nickname'
+                      id='nickname'
+                      placeholder='Nickname'
                       onChange={this.onChange}
                     />
                   </FormGroup>
-                </Col>
-                <Col xs='6'>
-                  <FormGroup>
-                    <Label for='lastName'>Last Name</Label>
-                    <Input
-                      type='text'
-                      name='lastName'
-                      id='lastName'
-                      placeholder='Last name'
-                      onChange={this.onChange}
-                    />
-                  </FormGroup>
-                </Col>
-              </Row>
-              <FormGroup>
-                <Label for='nickname'>Nickname</Label>
-                <Input
-                  type='text'
-                  name='nickname'
-                  id='nickname'
-                  placeholder='Nickname'
-                  onChange={this.onChange}
-                />
-              </FormGroup>
+                </Fragment>
+              ) : null}
               <FormGroup>
                 <Label for='username'>
                   Username <span style={{ color: 'red' }}>*</span>
@@ -164,7 +223,7 @@ class AuthModal extends Component {
               </FormGroup>
               <FormGroup>
                 <Button color='info' block>
-                  Submit
+                  {action}
                 </Button>
               </FormGroup>
             </Form>
@@ -182,5 +241,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { register, clearErrors }
+  { logIn, register, clearErrors }
 )(AuthModal);
