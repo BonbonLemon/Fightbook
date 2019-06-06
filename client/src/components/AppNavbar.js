@@ -15,7 +15,7 @@ import {
   // Button
 } from 'reactstrap';
 
-import SessionModal from './auth/SessionModal';
+import AuthModal from './auth/AuthModal';
 import Logout from './auth/Logout';
 
 class AppNavbar extends Component {
@@ -44,7 +44,7 @@ class AppNavbar extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
               <NavItem>
-                <SessionModal />
+                <AuthModal />
               </NavItem>
               <NavItem>
                 <Logout />

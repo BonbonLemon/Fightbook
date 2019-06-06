@@ -17,7 +17,7 @@ import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions';
 
-class SessionModal extends Component {
+class AuthModal extends Component {
   state = {
     modal: false,
     firstName: '',
@@ -34,7 +34,7 @@ class SessionModal extends Component {
     if (error !== prevProps.error) {
       // Check for register error
       if (error.id === 'REGISTER_FAIL') {
-        this.setState({ msg: error.msg });
+        this.setState({ msg: error.data.msg });
       } else {
         this.setState({ msg: null });
       }
@@ -183,4 +183,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   { register, clearErrors }
-)(SessionModal);
+)(AuthModal);
