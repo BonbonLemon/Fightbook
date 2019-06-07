@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AppNavbar from './components/AppNavbar';
+import Profile from './components/profile/Profile';
 
 import { Provider } from 'react-redux';
 import store from './store';
@@ -16,9 +18,11 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className='App'>
+        <Router>
           <AppNavbar />
-        </div>
+
+          <Route path='/profile/:id' component={Profile} />
+        </Router>
       </Provider>
     );
   }

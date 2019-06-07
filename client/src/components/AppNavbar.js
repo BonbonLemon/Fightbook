@@ -3,10 +3,10 @@ import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
+  // NavbarBrand,
   Nav,
-  // NavLink
   NavItem
+  // NavLink
   // UncontrolledDropdown,
   // DropdownToggle,
   // DropdownMenu,
@@ -14,6 +14,7 @@ import {
   // Container,
   // Button
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AuthModal from './auth/AuthModal';
@@ -45,9 +46,13 @@ class AppNavbar extends Component {
     const authLinks = (
       <Fragment>
         <NavItem>
-          <span className='navbar-text mr-3'>
-            <strong>{user ? `Welcome ${user.profile.firstName}` : null}</strong>
-          </span>
+          {user ? (
+            <Link to={`/profile/${user.id}`}>
+              <span className='navbar-text mr-3'>
+                <strong>{`Welcome ${user.profile.firstName}`}</strong>
+              </span>
+            </Link>
+          ) : null}
         </NavItem>
         <NavItem>
           <Logout />
@@ -66,7 +71,7 @@ class AppNavbar extends Component {
     return (
       <div>
         <Navbar color='info' dark expand='sm'>
-          <NavbarBrand href='/'>Fightbook</NavbarBrand>
+          <Link to='/'>Fightbook</Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
