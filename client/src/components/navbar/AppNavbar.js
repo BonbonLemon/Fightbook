@@ -17,8 +17,8 @@ import {
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import AuthModal from './auth/AuthModal';
-import Logout from './auth/Logout';
+import AuthModal from './AuthModal';
+import Logout from './Logout';
 
 class AppNavbar extends Component {
   constructor(props) {
@@ -45,6 +45,7 @@ class AppNavbar extends Component {
 
     const authLinks = (
       <Fragment>
+        <NavItem />
         <NavItem>
           {currentUser ? (
             <Link to={`/profile/${currentUser._id}`}>
@@ -71,7 +72,12 @@ class AppNavbar extends Component {
     return (
       <div>
         <Navbar color='info' dark expand='sm'>
-          <Link to='/'>Fightbook</Link>
+          <Link
+            to='/'
+            style={{ fontSize: '2rem', color: 'white', textDecoration: 'none' }}
+          >
+            fightbook
+          </Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className='ml-auto' navbar>
