@@ -2,8 +2,8 @@ import axios from 'axios';
 import { returnErrors } from './errorActions';
 
 import {
-  USER_LOADED,
-  USER_LOADING,
+  CURRENT_USER_LOADED,
+  CURRENT_USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -15,13 +15,13 @@ import {
 // Check token & load user
 export const loadUser = () => (dispatch, getState) => {
   // User Loading
-  dispatch({ type: USER_LOADING });
+  dispatch({ type: CURRENT_USER_LOADING });
 
   axios
     .get('/api/auth/user', tokenConfig(getState))
     .then(res =>
       dispatch({
-        type: USER_LOADED,
+        type: CURRENT_USER_LOADED,
         payload: res.data
       })
     )

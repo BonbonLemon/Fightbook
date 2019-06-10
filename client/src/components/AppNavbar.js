@@ -41,15 +41,15 @@ class AppNavbar extends Component {
 
   render() {
     const { isOpen } = this.state;
-    const { isAuthenticated, user } = this.props.auth;
+    const { isAuthenticated, currentUser } = this.props.auth;
 
     const authLinks = (
       <Fragment>
         <NavItem>
-          {user ? (
-            <Link to={`/profile/${user.id}`}>
+          {currentUser ? (
+            <Link to={`/profile/${currentUser._id}`}>
               <span className='navbar-text mr-3'>
-                <strong>{`Welcome ${user.profile.firstName}`}</strong>
+                <strong>{`Welcome ${currentUser.profile.firstName}`}</strong>
               </span>
             </Link>
           ) : null}

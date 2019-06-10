@@ -36,8 +36,8 @@ router.post('/', (req, res) => {
 
           res.json({
             token,
-            user: {
-              id: user.id,
+            currentUser: {
+              _id: user.id,
               username: user.username,
               profile: user.profile
             }
@@ -49,12 +49,12 @@ router.post('/', (req, res) => {
 });
 
 // @route   GET api/auth/user
-// @desc    Get user data
+// @desc    Get current user data
 // @access  Private
 router.get('/user', auth, (req, res) => {
-  User.findById(req.user.id)
+  User.findById(req.currentUser.id)
     .select('-password')
-    .then(user => res.json(user));
+    .then(currentUser => res.json(currentUser));
 });
 
 module.exports = router;

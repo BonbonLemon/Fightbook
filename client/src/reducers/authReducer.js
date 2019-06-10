@@ -1,6 +1,6 @@
 import {
-  USER_LOADED,
-  USER_LOADING,
+  CURRENT_USER_LOADED,
+  CURRENT_USER_LOADING,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -13,22 +13,22 @@ const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   isLoading: false,
-  user: null
+  currentUser: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case USER_LOADING:
+    case CURRENT_USER_LOADING:
       return {
         ...state,
         isLoading: true
       };
-    case USER_LOADED:
+    case CURRENT_USER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: action.payload
+        currentUser: action.payload
       };
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
@@ -47,7 +47,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         token: null,
-        user: null,
+        currentUser: null,
         isAuthenticated: false,
         isLoading: false
       };
