@@ -30,4 +30,27 @@ const UserSchema = new Schema({
   }
 });
 
+UserSchema.virtual('fullName').get(function() {
+  const { firstName, lastName } = this.profile;
+
+  let fullName = firstName;
+  if (lastName) fullName += ' ' + lastName;
+
+  return fullName;
+});
+
+UserSchema.set('toJSON', {
+  virtuals: true,
+  transform: function(doc, user, opt) {
+    delete user.password;
+    return user;
+  }
+});
+
+UserSchema.index({
+  username: 'text',
+  'profile.firstName': 'text',
+  'profile.lastName': 'text'
+});
+
 module.exports = User = mongoose.model('user', UserSchema);

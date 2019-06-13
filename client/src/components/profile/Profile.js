@@ -13,7 +13,6 @@ import {
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUser } from '../../actions/userActions';
-import { getFullName } from '../../helpers/userHelper';
 import defaultProfile from '../../assets/images/profile-default.png';
 
 class Profile extends Component {
@@ -63,7 +62,7 @@ class Profile extends Component {
                 {user ? (
                   <Fragment>
                     <CardTitle style={{ fontSize: '1.35em' }}>
-                      <strong>{getFullName(user)}</strong>
+                      <strong>{user.fullName}</strong>
                     </CardTitle>
                     <CardSubtitle>
                       <strong>{user.profile.nickname}</strong>

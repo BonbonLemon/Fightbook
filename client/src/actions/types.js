@@ -13,3 +13,5 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const USER_LOADING = 'USER_LOADING';
 export const USER_LOADED = 'USER_LOADED';
 export const USER_ERROR = 'USER_ERROR';
+export const SEARCH_USERS = 'SEARCH_USERS';
+export const USERS_LOADED = 'USERS_LOADED';

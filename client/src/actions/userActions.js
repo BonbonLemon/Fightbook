@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { USER_LOADED, USER_LOADING, USER_ERROR } from './types';
+import { USER_LOADED, USER_LOADING, USER_ERROR, USERS_LOADED } from './types';
 import { returnErrors } from './errorActions';
 
 // Check token & load user
@@ -19,5 +19,30 @@ export const getUser = userId => dispatch => {
       dispatch({
         type: USER_ERROR
       });
+    });
+};
+
+// Search for users
+export const searchUsers = filter => dispatch => {
+  // Headers
+  const config = {
+    headers: {
+      'Content-Type': 'application.json'
+    }
+  };
+
+  // Body
+  const params = { params: filter };
+
+  axios
+    .get('/api/users', params, config)
+    .then(res =>
+      dispatch({
+        type: USERS_LOADED,
+        payload: res.data
+      })
+    )
+    .catch(err => {
+      console.log('error searching...');
     });
 };

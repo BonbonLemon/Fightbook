@@ -47,11 +47,7 @@ router.post('/', (req, res) => {
 
               res.json({
                 token,
-                currentUser: {
-                  _id: user.id,
-                  username: user.username,
-                  profile: user.profile
-                }
+                currentUser: user
               });
             }
           );
@@ -61,13 +57,47 @@ router.post('/', (req, res) => {
   });
 });
 
-// @route   POST api/users/:id
+// @route   GET api/users/:id
 // @desc    Get user data
 // @access  Public
 router.get('/:userId', (req, res) => {
   User.findById(req.params.userId)
     .select('-username -password')
     .then(user => res.json(user));
+});
+
+// @route   GET api/users
+// @desc    Search for users
+// @access  Public
+router.get('/', (req, res) => {
+  // Query for users
+  User.aggregate(
+    [
+      {
+        $project: {
+          _id: 1,
+          profile: 1,
+          fullName: {
+            $cond: {
+              if: { $eq: ['', '$profile.lastName'] },
+              then: '$profile.firstName',
+              else: {
+                $concat: ['$profile.firstName', ' ', '$profile.lastName']
+              }
+            }
+          }
+        }
+      },
+      {
+        $match: {
+          fullName: new RegExp(req.param('searchInput'), 'i')
+        }
+      }
+    ],
+    function(err, users) {
+      res.json(users);
+    }
+  );
 });
 
 module.exports = router;

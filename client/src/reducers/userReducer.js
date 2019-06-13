@@ -1,4 +1,9 @@
-import { USER_LOADING, USER_LOADED, USER_ERROR } from '../actions/types';
+import {
+  USER_LOADING,
+  USER_LOADED,
+  USER_ERROR,
+  USERS_LOADED
+} from '../actions/types';
 
 const initialState = {
   user: null
@@ -21,7 +26,13 @@ export default function(state = initialState, action) {
       return {
         ...state,
         user: null,
-        isLoading: null
+        isLoading: false
+      };
+    case USERS_LOADED:
+      return {
+        ...state,
+        users: action.payload,
+        isLoading: false
       };
     default:
       return state;

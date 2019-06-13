@@ -1,24 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  // NavbarBrand,
-  Nav,
-  NavItem
-  // NavLink
-  // UncontrolledDropdown,
-  // DropdownToggle,
-  // DropdownMenu,
-  // DropdownItem,
-  // Container,
-  // Button
-} from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AuthModal from './AuthModal';
 import Logout from './Logout';
+import SearchBar from './SearchBar';
 
 class AppNavbar extends Component {
   constructor(props) {
@@ -45,7 +32,9 @@ class AppNavbar extends Component {
 
     const authLinks = (
       <Fragment>
-        <NavItem />
+        <NavItem className='mr-4'>
+          <SearchBar />
+        </NavItem>
         <NavItem>
           {currentUser ? (
             <Link to={`/profile/${currentUser._id}`}>
@@ -71,7 +60,7 @@ class AppNavbar extends Component {
 
     return (
       <div>
-        <Navbar color='info' dark expand='sm'>
+        <Navbar color='info' dark expand='md'>
           <Link
             to='/'
             style={{ fontSize: '2rem', color: 'white', textDecoration: 'none' }}
