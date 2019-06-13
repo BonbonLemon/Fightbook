@@ -24,18 +24,8 @@ export const getUser = userId => dispatch => {
 
 // Search for users
 export const searchUsers = filter => dispatch => {
-  // Headers
-  const config = {
-    headers: {
-      'Content-Type': 'application.json'
-    }
-  };
-
-  // Body
-  const params = { params: filter };
-
   axios
-    .get('/api/users', params, config)
+    .get('/api/users', { params: filter })
     .then(res =>
       dispatch({
         type: USERS_LOADED,

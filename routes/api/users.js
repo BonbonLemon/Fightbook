@@ -90,7 +90,7 @@ router.get('/', (req, res) => {
       },
       {
         $match: {
-          fullName: new RegExp(req.param('searchInput'), 'i')
+          fullName: { $regex: new RegExp(req.query.searchInput, 'i') }
         }
       }
     ],

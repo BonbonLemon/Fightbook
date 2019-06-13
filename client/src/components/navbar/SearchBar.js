@@ -1,66 +1,71 @@
 import React, { Component } from 'react';
-import {
-  Form,
-  Input,
-  Button,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem
-} from 'reactstrap';
+import { Form, Button } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Select from 'react-select';
 import { searchUsers } from '../../actions/userActions';
 
 export class SearchBar extends Component {
   state = {
     searchInput: '',
-    dropdownOpen: true
+    redirectTo: false
   };
 
   static propTypes = {
+    user: PropTypes.object.isRequired,
     searchUsers: PropTypes.func.isRequired
   };
 
-  onChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+  onInputChange = (input, { action }) => {
+    if (action === 'input-change') {
+      this.setState({ searchInput: input });
 
-    this.props.searchUsers({ searchInput: e.target.value });
+      this.props.searchUsers({ searchInput: input });
+    }
   };
 
-  toggle = () => {
-    this.setState(prevState => ({
-      dropdownOpen: !prevState.dropdownOpen
-    }));
+  onSelect = (user, { action }) => {
+    if (action === 'select-option') {
+      this.setState({ searchInput: '', redirectTo: '/profile/' + user.value });
+    }
   };
 
   render() {
-    const { searchInput, dropdownOpen } = this.state;
+    const { searchInput, redirectTo } = this.state;
+    const users = this.props.user.users || [];
+    const options = users.map(user => ({
+      value: user._id,
+      label: user.fullName
+    }));
 
     return (
       <Form inline>
-        <Input
-          name='searchInput'
-          className='mr-2'
-          placeholder='Search'
-          onChange={this.onChange}
-          value={searchInput}
-        />
-        <Dropdown tag='input' isOpen={dropdownOpen} toggle={this.toggle}>
-          <DropdownMenu>
-            <DropdownItem>name 1</DropdownItem>
-            <DropdownItem>person 2</DropdownItem>
-            <DropdownItem>guy 3</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        {redirectTo ? <Redirect to={redirectTo} /> : null}
+        <div className='mr-3' style={{ width: '18em' }}>
+          <Select
+            inputValue={searchInput}
+            onInputChange={this.onInputChange}
+            onChange={this.onSelect}
+            options={options}
+            placeholder='Search'
+            noOptionsMessage={({ inputValue }) =>
+              'Couldn\'t find anything for "' + inputValue + '"'
+            }
+            escapeClearsValue={false}
+          />
+        </div>
         <Button>Search</Button>
       </Form>
     );
   }
 }
 
+const mapStateToProps = state => ({
+  user: state.user
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { searchUsers }
 )(SearchBar);
