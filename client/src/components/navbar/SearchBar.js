@@ -52,7 +52,7 @@ export class SearchBar extends Component {
             noOptionsMessage={({ inputValue }) =>
               'Couldn\'t find anything for "' + inputValue + '"'
             }
-            escapeClearsValue={false}
+            escapeClearsValue={true}
           />
         </div>
         <Button>Search</Button>

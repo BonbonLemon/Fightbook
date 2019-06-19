@@ -10,6 +10,7 @@ import {
   CardSubtitle,
   CardText
 } from 'reactstrap';
+import Canvas from './Canvas';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getUser } from '../../actions/userActions';
@@ -35,6 +36,7 @@ class Profile extends Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
+    userId: PropTypes.string.isRequired,
     getUser: PropTypes.func.isRequired
   };
 
@@ -76,6 +78,15 @@ class Profile extends Component {
                 </CardText>
               </CardBody>
             </Card>
+          </Col>
+          <Col md='8'>
+            <Card className='card-shadow mb-4'>
+              <CardBody>
+                <CardTitle className='card-title'>About</CardTitle>
+              </CardBody>
+            </Card>
+
+            <Canvas userId={this.props.userId} />
           </Col>
         </Row>
       </Container>

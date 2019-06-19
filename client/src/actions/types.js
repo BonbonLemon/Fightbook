@@ -15,3 +15,8 @@ export const USER_LOADED = 'USER_LOADED';
 export const USER_ERROR = 'USER_ERROR';
 export const SEARCH_USERS = 'SEARCH_USERS';
 export const USERS_LOADED = 'USERS_LOADED';
+
+// Post types
+export const RECEIVE_POST = 'RECEIVE_POST';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const GET_POSTS = 'GET_POASTS';

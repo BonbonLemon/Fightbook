@@ -48,7 +48,6 @@ UserSchema.set('toJSON', {
 });
 
 UserSchema.index({
-  username: 'text',
   'profile.firstName': 'text',
   'profile.lastName': 'text'
 });
