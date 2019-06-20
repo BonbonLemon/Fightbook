@@ -52,4 +52,4 @@ UserSchema.index({
   'profile.lastName': 'text'
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model('User', UserSchema);

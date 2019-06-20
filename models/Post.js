@@ -24,4 +24,4 @@ const PostSchema = new Schema({
   comments: [{ body: String, postedBy: Schema.Types.ObjectId }]
 });
 
-module.exports = User = mongoose.model('post', PostSchema);
+module.exports = User = mongoose.model('Post', PostSchema);

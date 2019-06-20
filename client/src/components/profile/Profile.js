@@ -60,13 +60,16 @@ class Profile extends Component {
                   width: '7rem'
                 }}
               />
-              <CardBody>
+              <CardBody style={{ paddingTop: '0.5rem' }}>
                 {user ? (
                   <Fragment>
-                    <CardTitle style={{ fontSize: '1.35em' }}>
-                      <strong>{user.fullName}</strong>
+                    <CardTitle
+                      className='bold-title mb-1'
+                      style={{ fontSize: '1.35em' }}
+                    >
+                      {user.fullName}
                     </CardTitle>
-                    <CardSubtitle>
+                    <CardSubtitle className='mb-2'>
                       <strong>{user.profile.nickname}</strong>
                     </CardSubtitle>
                   </Fragment>
@@ -82,7 +85,7 @@ class Profile extends Component {
           <Col md='8'>
             <Card className='card-shadow mb-4'>
               <CardBody>
-                <CardTitle className='card-title'>About</CardTitle>
+                <CardTitle className='bold-title'>About</CardTitle>
               </CardBody>
             </Card>
 

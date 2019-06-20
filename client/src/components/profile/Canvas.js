@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import {
   Card,
   CardBody,
@@ -8,6 +8,7 @@ import {
   Input,
   Button
 } from 'reactstrap';
+import { Post } from './Post';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPosts, createPost } from './../../actions/postActions';
@@ -64,30 +65,35 @@ export class Canvas extends Component {
     const posts = this.props.post.posts || [];
 
     return (
-      <Card className='card-shadow'>
-        <CardBody>
-          <CardTitle className='card-title'>Canvas</CardTitle>
-          <Form onSubmit={this.onSubmit}>
-            <FormGroup>
-              <Input
-                name='post'
-                type='textarea'
-                placeholder={'Write something to ' + profile.firstName + '...'}
-                value={post}
-                onChange={this.onChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Button color='info' block>
-                Post
-              </Button>
-            </FormGroup>
-          </Form>
-          {posts.map(post => (
-            <div key={post._id}>{post.body}</div>
-          ))}
-        </CardBody>
-      </Card>
+      <Fragment>
+        <Card className='card-shadow mb-3'>
+          <CardBody>
+            <CardTitle className='bold-title'>Canvas</CardTitle>
+            <Form onSubmit={this.onSubmit}>
+              <FormGroup>
+                <Input
+                  name='post'
+                  type='textarea'
+                  placeholder={
+                    'Write something to ' + profile.firstName + '...'
+                  }
+                  value={post}
+                  onChange={this.onChange}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Button color='info' block>
+                  Post
+                </Button>
+              </FormGroup>
+            </Form>
+          </CardBody>
+        </Card>
+        <h6 className='ml-1'>Posts</h6>
+        {posts.map(post => (
+          <Post key={post._id} post={post} user={user} />
+        ))}
+      </Fragment>
     );
   }
 }

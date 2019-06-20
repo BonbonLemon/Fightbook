@@ -9,7 +9,11 @@ body {
     2px 2px 2px 1px rgba(0, 0, 0, 0.05);
 }
 
-.card-title {
+.bold-title.card-title {
   font-size: 1.3rem;
   font-weight: bold;
+}
+
+.card-subtitle {
+  color: #616770;
 }

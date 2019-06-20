@@ -18,17 +18,20 @@ router.post('/', auth, (req, res) => {
   });
 
   newPost.save().then(post => {
-    res.json(post);
+    post.populate('postedBy', function(err) {
+      res.json(post);
+    });
   });
 });
 
-// @route   GET api/items
-// @desc    Get all Items
+// @route   GET api/posts/:userId
+// @desc    Get posts for a user
 // @access  Public
 router.get('/:userId', (req, res) => {
   Post.find({ postedTo: req.params.userId })
+    .populate('postedBy')
     .sort({ dateCreated: -1 })
-    .then(posts => {
+    .exec((err, posts) => {
       res.json(posts);
     });
 });
