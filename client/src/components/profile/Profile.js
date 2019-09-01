@@ -10,6 +10,7 @@ import {
   CardSubtitle,
   CardText
 } from 'reactstrap';
+import About from './About';
 import Canvas from './Canvas';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -17,11 +18,7 @@ import { getUser } from '../../actions/userActions';
 import defaultProfile from '../../assets/images/profile-default.png';
 
 class Profile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
+  state = {};
 
   componentDidMount() {
     this.props.getUser(this.props.userId);
@@ -83,11 +80,7 @@ class Profile extends Component {
             </Card>
           </Col>
           <Col md='8'>
-            <Card className='card-shadow mb-4'>
-              <CardBody>
-                <CardTitle className='bold-title'>About</CardTitle>
-              </CardBody>
-            </Card>
+            <About />
 
             <Canvas userId={this.props.userId} />
           </Col>
